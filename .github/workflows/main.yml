@@ -5,39 +5,47 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Extract Abri Market project
+      - name: Extract project
+        shell: bash
         run: |
-          ZIP_FILE=$(find . -maxdepth 1 -type f -name "*.zip" | head -n 1)
-          echo "ZIP: $ZIP_FILE"
-          unzip -o "$ZIP_FILE" -d extracted
-          cp -r extracted/. .
-
-      - name: Check Flutter project
-        run: |
-          ls -la
-          ls -la mobile_flutter
+          set -e
+          mkdir -p project
+          unzip -q abri_market_apk_ready.zip -d project
+          PROJECT_DIR=$(find project -name pubspec.yaml -type f -print -quit | xargs dirname)
+          if [ -z "$PROJECT_DIR" ]; then
+            echo "pubspec.yaml not found"
+            exit 1
+          fi
+          echo "PROJECT_DIR=$PROJECT_DIR" >> "$GITHUB_ENV"
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
 
-      - name: Install dependencies
-        working-directory: mobile_flutter
-        run: flutter pub get
+      - name: Get dependencies
+        shell: bash
+        run: |
+          set -e
+          cd "$PROJECT_DIR"
+          flutter pub get
 
       - name: Build APK
-        working-directory: mobile_flutter
-        run: flutter build apk --debug
+        shell: bash
+        run: |
+          set -e
+          cd "$PROJECT_DIR"
+          flutter build apk --debug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: abri-market-apk
-          path: mobile_flutter/build/app/outputs/flutter-apk/app-debug.apk
+          path: ${{ env.PROJECT_DIR }}/build/app/outputs/flutter-apk/app-debug.apk
+          if-no-files-found: error
