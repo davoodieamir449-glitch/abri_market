@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ابر مارکت | پنل مدیریت مالک</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap');
+:root{--bg:#09090b;--panel:#131316;--panel2:#1a1a1e;--line:#303036;--text:#f8f8f8;--muted:#9999a2;--gold:#f5c65d;--gold2:#c78a20;--green:#72df9b;--red:#ff7f7f;--blue:#77b7ff}
+*{box-sizing:border-box}body{margin:0;background:#e5ebf3;color:var(--text);font-family:Vazirmatn,Arial,sans-serif}.wrap{max-width:1450px;margin:auto;min-height:100vh;background:var(--bg);display:flex}
+aside{width:255px;background:linear-gradient(180deg,#151519,#09090b);border-left:1px solid var(--line);padding:22px 14px;position:sticky;top:0;height:100vh}
+.brand{display:flex;align-items:center;gap:12px;padding:5px 10px 24px;border-bottom:1px solid var(--line);margin-bottom:18px}.logo{width:47px;height:47px;border-radius:15px;background:linear-gradient(145deg,#ffe18c,#9e6815);display:grid;place-items:center;color:#17120a;font-size:25px;box-shadow:0 8px 24px #d99b3040}.brand b{font-size:18px}.brand small{display:block;color:#999;font-size:9px;margin-top:3px}
+.nav{display:grid;gap:7px}.nav button{border:1px solid transparent;background:transparent;color:#aaa;padding:12px 13px;border-radius:13px;text-align:right;cursor:pointer;font:inherit;font-size:11px}.nav button:hover,.nav button.on{background:linear-gradient(90deg,#28221a,#1a1a1e);border-color:#604b27;color:#fff}.nav button.on{box-shadow:inset -3px 0 var(--gold)}
+.owner{position:absolute;bottom:18px;left:14px;right:14px;border:1px solid #4a3b22;background:#171512;border-radius:15px;padding:12px;font-size:10px}.owner strong{color:var(--gold);display:block;margin-bottom:4px}
+main{flex:1;min-width:0}.top{height:78px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 25px;background:#0c0c0f;position:sticky;top:0;z-index:10}.top h1{font-size:18px;margin:0}.top small{display:block;color:#8f8f96;font-size:9px;margin-top:4px}.actions{display:flex;gap:8px}.btn{border:1px solid var(--line);background:#19191d;color:#eee;border-radius:11px;padding:9px 13px;cursor:pointer;font:inherit;font-size:10px}.btn.gold{background:linear-gradient(#ffe092,#d99a27);color:#17120a;border-color:#f2cb6d;font-weight:900}
+.page{display:none;padding:24px}.page.active{display:block}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}.stat{background:linear-gradient(145deg,#1a1a1e,#101013);border:1px solid var(--line);border-radius:17px;padding:17px;min-height:120px;box-shadow:0 12px 25px #0005}.stat .ico{font-size:22px}.stat .n{font-size:25px;font-weight:900;margin:8px 0 2px}.stat small{font-size:9px;color:var(--muted)}
+.sectionTitle{display:flex;justify-content:space-between;align-items:center;margin:25px 0 12px}.sectionTitle h2{font-size:15px;margin:0}.sectionTitle span{font-size:9px;color:#999}
+.table{background:#131316;border:1px solid var(--line);border-radius:17px;overflow:hidden}.tr{display:grid;grid-template-columns:1.4fr 1fr 1fr .8fr .7fr;align-items:center;gap:10px;padding:13px 15px;border-bottom:1px solid #29292d;font-size:10px}.tr:last-child{border-bottom:0}.head{background:#1b1b1f;color:#999;font-size:9px}.badge{display:inline-block;border-radius:9px;padding:4px 8px;font-size:8px;font-weight:800}.ok{background:#173426;color:#83e6a8}.wait{background:#3a2d13;color:#f6cb69}.bad{background:#3a1d20;color:#ff9292}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.card{background:#141417;border:1px solid var(--line);border-radius:17px;padding:15px}.card h3{font-size:12px;margin:0 0 8px}.card p{font-size:9px;color:#999;line-height:1.9;margin:0}.mini{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
+.search{width:100%;background:#0f0f12;border:1px solid var(--line);border-radius:12px;padding:11px 13px;color:#fff;outline:0;margin-bottom:12px}.filters{display:flex;gap:8px;flex-wrap:wrap}.filters select{background:#17171b;border:1px solid var(--line);color:#ddd;border-radius:10px;padding:8px;font:inherit;font-size:9px}
+.chart{height:220px;background:#131316;border:1px solid var(--line);border-radius:17px;padding:18px;display:flex;align-items:flex-end;gap:10px}.bar{flex:1;background:linear-gradient(#f8d77d,#a96f16);border-radius:8px 8px 3px 3px;min-height:25px;position:relative}.bar span{position:absolute;bottom:-21px;right:0;left:0;text-align:center;color:#888;font-size:8px}
+.alert{border:1px solid #604b27;background:#1b1812;color:#e8c875;border-radius:14px;padding:12px;font-size:9px;margin-bottom:13px}
+@media(max-width:900px){.wrap{display:block}aside{width:100%;height:auto;position:relative;border-left:0;border-bottom:1px solid var(--line)}.nav{grid-template-columns:repeat(4,1fr)}.owner{position:static;margin-top:12px}.grid4{grid-template-columns:repeat(2,1fr)}.cards{grid-template-columns:1fr}.tr{grid-template-columns:1.3fr .8fr .8fr}.tr>*:nth-child(4),.tr>*:nth-child(5){display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside>
+<div class="brand"><div class="logo">⌂</div><div><b>ابر مارکت</b><small>پنل مدیریت مالک</small></div></div>
+<div class="nav">
+<button class="on" data-page="dashboard">📊 داشبورد</button>
+<button data-page="users">👥 کاربران</button>
+<button data-page="ads">📦 مدیریت آگهی‌ها</button>
+<button data-page="reports">🚨 گزارش‌ها و تخلفات</button>
+<button data-page="finance">💰 مالی و درآمد</button>
+<button data-page="categories">🗂 دسته‌بندی‌ها</button>
+<button data-page="cities">📍 شهرها و استان‌ها</button>
+<button data-page="settings">⚙️ تنظیمات سیستم</button>
+</div>
+<div class="owner"><strong>👑 مالک سیستم</strong>دسترسی کامل فقط برای حساب OWNER<br><span style="color:#777">ورود امن باید در نسخه واقعی با OTP و احراز نشست انجام شود.</span></div>
+</aside>
+
+<main>
+<header class="top"><div><h1 id="title">داشبورد مالک</h1><small>مدیریت مرکزی ابر مارکت</small></div><div class="actions"><button class="btn" onclick="toast('اعلان‌های مدیریتی')">🔔</button><button class="btn gold" onclick="toast('برای نسخه واقعی، ورود امن مالک فعال می‌شود')">🔐 حساب مالک</button></div></header>
+
+<section id="dashboard" class="page active">
+<div class="alert">این نسخه، رابط کاربری پنل مالک است. عملیات واقعی باید بعداً به سرور امن، دیتابیس، احراز هویت و لاگ‌های مدیریتی متصل شود.</div>
+<div class="grid4">
+<div class="stat"><div class="ico">👥</div><div class="n">۱۲٬۸۴۰</div><small>کاربر ثبت‌شده</small></div>
+<div class="stat"><div class="ico">📦</div><div class="n">۳٬۴۸۲</div><small>آگهی فعال</small></div>
+<div class="stat"><div class="ico">⏳</div><div class="n">۱۲۶</div><small>در انتظار بررسی</small></div>
+<div class="stat"><div class="ico">💰</div><div class="n">۲۸۵M</div><small>درآمد نمایشی ماه جاری</small></div>
+</div>
+<div class="sectionTitle"><h2>فعالیت اخیر</h2><span>آخرین رویدادها</span></div>
+<div class="table">
+<div class="tr head"><span>رویداد</span><span>کاربر</span><span>زمان</span><span>وضعیت</span><span>عملیات</span></div>
+<div class="tr"><span>ثبت آگهی خودرو</span><span>کاربر ۱۰۲۴</span><span>۵ دقیقه پیش</span><span><i class="badge wait">بررسی</i></span><span>›</span></div>
+<div class="tr"><span>گزارش آگهی</span><span>کاربر ۸۸۱</span><span>۱۲ دقیقه پیش</span><span><i class="badge wait">جدید</i></span><span>›</span></div>
+<div class="tr"><span>تکمیل احراز هویت</span><span>کاربر ۷۳۲</span><span>۲۳ دقیقه پیش</span><span><i class="badge ok">تأیید</i></span><span>›</span></div>
+</div>
+<div class="sectionTitle"><h2>وضعیت بخش‌ها</h2></div>
+<div class="cards"><div class="card"><h3>سرور</h3><p>وضعیت سرویس‌ها در نسخه واقعی از سرور خوانده می‌شود.</p><div class="mini"><span class="badge ok">فعال</span><span>API</span></div></div><div class="card"><h3>پرداخت</h3><p>درگاه پرداخت هنوز به نسخه نمایشی متصل است.</p><div class="mini"><span class="badge wait">آماده اتصال</span><span>Gateway</span></div></div><div class="card"><h3>پیامک</h3><p>OTP واقعی باید از سرویس پیامکی معتبر دریافت شود.</p><div class="mini"><span class="badge wait">آماده اتصال</span><span>SMS</span></div></div></div>
+</section>
+
+<section id="users" class="page"><div class="sectionTitle"><h2>مدیریت کاربران</h2><span>مشاهده و مدیریت حساب‌ها</span></div><input class="search" placeholder="جستجوی نام، شماره یا شناسه کاربر..." oninput="searchTable(this,'usersTable')"><div class="table" id="usersTable"><div class="tr head"><span>کاربر</span><span>شماره</span><span>نقش</span><span>وضعیت</span><span>عملیات</span></div><div class="tr"><span>کاربر ۱۰۲۴</span><span>09********12</span><span>USER</span><span class="badge ok">فعال</span><span>›</span></div><div class="tr"><span>کاربر ۸۸۱</span><span>09********43</span><span>USER</span><span class="badge ok">فعال</span><span>›</span></div><div class="tr"><span>مدیر بررسی</span><span>09********77</span><span>MODERATOR</span><span class="badge ok">فعال</span><span>›</span></div></div></section>
+
+<section id="ads" class="page"><div class="sectionTitle"><h2>مدیریت آگهی‌ها</h2><span>تأیید، رد، حذف و بررسی</span></div><div class="filters"><select><option>همه وضعیت‌ها</option><option>در انتظار</option><option>فعال</option><option>رد شده</option></select><select><option>همه دسته‌ها</option><option>املاک</option><option>خودرو</option><option>موبایل</option></select></div><br><div class="table"><div class="tr head"><span>آگهی</span><span>دسته</span><span>فروشنده</span><span>وضعیت</span><span>عملیات</span></div><div class="tr"><span>آپارتمان ۱۲۰ متری</span><span>املاک</span><span>کاربر ۱۰۲۴</span><span class="badge wait">بررسی</span><span>✓ ✕</span></div><div class="tr"><span>تویوتا راو4</span><span>خودرو</span><span>کاربر ۸۸۱</span><span class="badge ok">فعال</span><span>›</span></div><div class="tr"><span>آیفون ۱۳ پرو</span><span>موبایل</span><span>کاربر ۷۳۲</span><span class="badge bad">گزارش‌شده</span><span>›</span></div></div></section>
+
+<section id="reports" class="page"><div class="sectionTitle"><h2>گزارش‌ها و تخلفات</h2><span>بررسی گزارش‌های کاربران</span></div><div class="cards"><div class="card"><h3>گزارش آگهی</h3><p>آگهی «آیفون ۱۳ پرو» توسط ۳ کاربر گزارش شده است.</p><div class="mini"><span class="badge bad">نیازمند بررسی</span><button class="btn" onclick="toast('صفحه بررسی گزارش باز شد')">بررسی</button></div></div><div class="card"><h3>کاربر مشکوک</h3><p>فعالیت غیرعادی برای یک حساب ثبت شده است.</p><div class="mini"><span class="badge wait">بررسی</span><button class="btn">مشاهده</button></div></div><div class="card"><h3>محتوای نامناسب</h3><p>گزارش‌های محتوایی در این بخش جمع‌آوری می‌شوند.</p><div class="mini"><span class="badge ok">۰ مورد جدید</span></div></div></div></section>
+
+<section id="finance" class="page"><div class="sectionTitle"><h2>مالی و درآمد</h2><span>ارقام این صفحه نمایشی هستند</span></div><div class="grid4"><div class="stat"><div class="n">۲۸۵M</div><small>درآمد ماه</small></div><div class="stat"><div class="n">۶۸M</div><small>تبلیغات ویژه</small></div><div class="stat"><div class="n">۱۱۲M</div><small>کمیسیون</small></div><div class="stat"><div class="n">۱۰۵M</div><small>سایر خدمات</small></div></div><div class="sectionTitle"><h2>نمودار درآمد</h2></div><div class="chart"><div class="bar" style="height:38%"><span>فروردین</span></div><div class="bar" style="height:55%"><span>اردیبهشت</span></div><div class="bar" style="height:47%"><span>خرداد</span></div><div class="bar" style="height:70%"><span>تیر</span></div><div class="bar" style="height:63%"><span>مرداد</span></div><div class="bar" style="height:84%"><span>شهریور</span></div></div></section>
+
+<section id="categories" class="page"><div class="sectionTitle"><h2>مدیریت دسته‌بندی‌ها</h2><button class="btn gold" onclick="toast('دسته جدید در نسخه واقعی به دیتابیس اضافه می‌شود')">+ دسته جدید</button></div><div class="cards"><div class="card"><h3>🏠 املاک</h3><p>آپارتمان، ویلا، زمین، مغازه و اداری</p></div><div class="card"><h3>🚙 خودرو</h3><p>سواری، موتور، سنگین و قطعات</p></div><div class="card"><h3>📱 موبایل</h3><p>گوشی، تبلت و لوازم جانبی</p></div><div class="card"><h3>💻 دیجیتال</h3><p>لپ‌تاپ، کامپیوتر و تجهیزات</p></div><div class="card"><h3>🛋️ خانه و زندگی</h3><p>لوازم خانگی و مبلمان</p></div><div class="card"><h3>🛠️ خدمات</h3><p>خدمات فنی، آموزشی و تخصصی</p></div></div></section>
+
+<section id="cities" class="page"><div class="sectionTitle"><h2>شهرها و استان‌ها</h2><span>مدیریت محدوده انتشار آگهی</span></div><div class="table"><div class="tr head"><span>استان</span><span>تعداد شهر</span><span>آگهی</span><span>وضعیت</span><span>عملیات</span></div><div class="tr"><span>آذربایجان شرقی</span><span>۱۹</span><span>۳۸۰</span><span class="badge ok">فعال</span><span>›</span></div><div class="tr"><span>تهران</span><span>۲۳</span><span>۹۸۰</span><span class="badge ok">فعال</span><span>›</span></div><div class="tr"><span>خراسان رضوی</span><span>۱۹</span><span>۴۵۰</span><span class="badge ok">فعال</span><span>›</span></div><div class="tr"><span>فارس</span><span>۲۳</span><span>۲۹۰</span><span class="badge ok">فعال</span><span>›</span></div></div></section>
+
+<section id="settings" class="page"><div class="sectionTitle"><h2>تنظیمات سیستم</h2><span>دسترسی مالک</span></div><div class="cards"><div class="card"><h3>🔐 امنیت مالک</h3><p>ورود با OTP، نشست امن، ثبت دستگاه و ثبت لاگ عملیات مدیریتی.</p><div class="mini"><span class="badge wait">نیازمند اتصال Backend</span></div></div><div class="card"><h3>🛡️ نقش‌ها</h3><p>OWNER، ADMIN، MODERATOR و USER با سطح دسترسی جداگانه.</p><div class="mini"><span class="badge ok">طراحی شده</span></div></div><div class="card"><h3>🧾 لاگ مدیریتی</h3><p>هر عملیات حساس مالک در نسخه واقعی باید زمان، کاربر و نتیجه داشته باشد.</p><div class="mini"><span class="badge wait">آماده اتصال</span></div></div></div></section>
+</main>
+</div>
+<div id="toast" style="position:fixed;bottom:25px;left:50%;transform:translateX(-50%) translateY(20px);opacity:0;background:#f5c65d;color:#17120a;border-radius:12px;padding:10px 16px;font-size:10px;font-weight:900;transition:.25s;z-index:50"></div>
+<script>
+const titles={dashboard:'داشبورد مالک',users:'مدیریت کاربران',ads:'مدیریت آگهی‌ها',reports:'گزارش‌ها و تخلفات',finance:'مالی و درآمد',categories:'مدیریت دسته‌بندی‌ها',cities:'شهرها و استان‌ها',settings:'تنظیمات سیستم'};
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{const id=b.dataset.page;document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('on'));b.classList.add('on');document.getElementById('title').textContent=titles[id]});
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.style.opacity=1;t.style.transform='translateX(-50%) translateY(0)';clearTimeout(window.x);window.x=setTimeout(()=>{t.style.opacity=0;t.style.transform='translateX(-50%) translateY(20px)'},2000)}
+function searchTable(input,id){const q=input.value.trim();document.querySelectorAll('#'+id+' .tr:not(.head)').forEach(r=>r.style.display=!q||r.textContent.includes(q)?'grid':'none')}
+</script>
+</body></html>
