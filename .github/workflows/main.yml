@@ -11,12 +11,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Extract project ZIP
+      - name: Extract Abri Market project
         run: |
           ZIP_FILE=$(find . -maxdepth 1 -type f -name "*.zip" | head -n 1)
-          echo "Using: $ZIP_FILE"
-          unzip -o "$ZIP_FILE" -d ./project
-          cp -r ./project/. .
+          echo "ZIP: $ZIP_FILE"
+          unzip -o "$ZIP_FILE" -d extracted
+          cp -r extracted/. .
+
+      - name: Check Flutter project
+        run: |
+          ls -la
+          ls -la mobile_flutter
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -36,4 +41,3 @@ jobs:
         with:
           name: abri-market-apk
           path: mobile_flutter/build/app/outputs/flutter-apk/app-debug.apk
-          
