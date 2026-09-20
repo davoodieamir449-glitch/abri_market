@@ -11,23 +11,52 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Extract project
+      - name: Find and extract Flutter project
         shell: bash
         run: |
           set -e
+
           mkdir -p project
-          unzip -q abri_market_apk_ready.zip -d project
-          PROJECT_DIR=$(find project -name pubspec.yaml -type f -print -quit | xargs dirname)
-          if [ -z "$PROJECT_DIR" ]; then
-            echo "pubspec.yaml not found"
+
+          ZIP_FILE=""
+
+          for f in *.zip; do
+            if [ -f "$f" ] && unzip -l "$f" | grep -q "pubspec.yaml"; then
+              ZIP_FILE="$f"
+              break
+            fi
+          done
+
+          if [ -z "$ZIP_FILE" ]; then
+            echo "ERROR: Flutter project ZIP was not found."
             exit 1
           fi
+
+          echo "Using ZIP: $ZIP_FILE"
+
+          unzip -q "$ZIP_FILE" -d project
+
+          PROJECT_DIR=$(find project -name pubspec.yaml -type f -print -quit | xargs dirname)
+
+          if [ -z "$PROJECT_DIR" ]; then
+            echo "ERROR: pubspec.yaml not found."
+            exit 1
+          fi
+
           echo "PROJECT_DIR=$PROJECT_DIR" >> "$GITHUB_ENV"
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
+
+      - name: Generate Android build files
+        shell: bash
+        run: |
+          set -e
+          cd "$PROJECT_DIR"
+
+          flutter create --platforms=android .
 
       - name: Get dependencies
         shell: bash
